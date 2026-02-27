@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Game</title>
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:url("background.jpg") no-repeat center center fixed;
+background-size:cover;
+color:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+.container{
+background:#fff;
+padding:20px;
+border-radius:20px;
+text-align:center;
+width:90%;
+max-width:420px;
+box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+.page{display:none}
+.active{display:block}
+button{
+padding:10px 18px;
+margin:8px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+background:#ff8fb1;
+color:#fff;
+}
+img{max-width:100%;border-radius:12px;margin:10px 0}
+.box{
+background:#f2f2f2;
+margin:6px auto;
+padding:10px;
+border-radius:10px;
+}
+.backBtn{
+position:fixed;
+top:15px;
+left:15px;
+display:none;
+z-index:1000;
+}
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+}
+.card img{
+width:70px;
+height:90px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<button id="backBtn" class="backBtn" onclick="goBack()">Back</button>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="page1" class="page active">
+<h2>Login</h2>
+<input id="usernameInput" placeholder="Username"><br><br>
+<input id="passwordInput" type="password" placeholder="Password"><br><br>
+<button onclick="checkLogin()">Enter</button>
+<p id="loginMsg" style="color:red;"></p>
+</div>
+
+<!-- START -->
+<div id="page2" class="page">
+<img src="start message.jpg">
+<button onclick="nextPage(3)">Next</button>
+</div>
+
+<!-- MINI JOEY -->
+<div id="page3" class="page">
+<img src="mini joey.jpg">
+<button onclick="nextPage(4)">Next</button>
+</div>
+
+<!-- JOEY صفات -->
+<div id="page4" class="page">
+<img src="mini joey.jpg">
+<div class="box">مهندس في تصعيد الامور</div>
+<div class="box">دمك تقيل</div>
+<div class="box">شكلك كدا بتحبني بجد</div>
+<div class="box">خلقك ضيق</div>
+<div class="box">امك ست مفتريه</div>
+<div class="box">ساعات بتكون طيب</div>
+<button onclick="nextPage(5)">Next</button>
+</div>
+
+<!-- MINI MOAA -->
+<div id="page5" class="page">
+<img src="mini moaa.jpg">
+<button onclick="nextPage(6)">Next</button>
+</div>
+
+<!-- MOAA صفات -->
+<div id="page6" class="page">
+<img src="mini moaa.jpg">
+<div class="box">عسوله و جميله</div>
+<div class="box">دمي خفيف</div>
+<div class="box">بحبك بجد</div>
+<div class="box">بتقمص كتير</div>
+<div class="box">ذكيه و بفهم فيكى حاجه</div>
+<button onclick="nextPage(7)">Next</button>
+</div>
+
+<!-- US -->
+<div id="page7" class="page">
+<img src="us.jpg">
+<button onclick="nextPage(8)">Start</button>
+</div>
+
+<!-- VIDEO -->
+<div id="page8" class="page">
+<video id="video1" width="100%" controls>
+<source src="us.mp4" type="video/mp4">
+</video>
+<button id="videoNext" style="display:none" onclick="nextPage(9)">Next</button>
+</div>
+
+<!-- MENU -->
+<div id="page9" class="page">
+<h3>تحب نعيد ايه سوا</h3>
+<button onclick="nextPage(10)">First date</button><br>
+<button onclick="nextPage(15)">Some of us</button><br>
+<button onclick="nextPage(20)">Games</button><br>
+<button onclick="nextPage(30)">Message for you</button><br>
+<button onclick="nextPage(40)">Since</button>
+</div>
+
+<!-- CHOOSE -->
+<div id="page10" class="page">
+<h4>اي هي اول صوره لينا سوا؟</h4>
+<img src="choose1.jpg" width="45%" onclick="wrong()">
+<img src="choose2.jpg" width="45%" onclick="wrong()"><br>
+<img src="choose3.jpg" width="45%" onclick="correct()">
+<img src="choose4.jpg" width="45%" onclick="wrong()">
+<p id="chooseResult"></p>
+<button id="chooseNext" style="display:none" onclick="nextPage(11)">Next</button>
+</div>
+
+<!-- FIRST DATE LOOP -->
+<div id="page11" class="page">
+<img id="fdImg" src="first date1.jpg">
+<button onclick="flipFD()">Flip</button>
+<button onclick="nextPage(12)">Next</button>
+</div>
+
+<!-- TEXT -->
+<div id="page12" class="page">
+<p id="text"></p>
+<button id="backToMenu" style="display:none" onclick="nextPage(9)">Next</button>
+</div>
+
+<!-- SOME OF US -->
+<div id="page15" class="page">
+<video width="100%" controls>
+<source src="some of us.mp4" type="video/mp4">
+</video>
+<button onclick="nextPage(9)">Next</button>
+</div>
+
+<!-- GAMES -->
+<div id="page20" class="page">
+<button onclick="nextPage(21)">Mystery sentences</button>
+<button onclick="nextPage(25)">Memory</button>
+</div>
+
+<!-- MYSTERY -->
+<div id="page21" class="page">
+<img src="mystery sentences.jpg">
+<input id="mysteryInput"><br>
+<button onclick="checkMystery()">Check</button>
+<p id="mysteryResult"></p>
+</div>
+
+<div id="page22" class="page">
+<img src="hug.jpg">
+<h3>شااااطرررر</h3>
+<button onclick="nextPage(9)">Next</button>
+</div>
+
+<!-- MEMORY -->
+<div id="page25" class="page">
+<div class="cards" id="memoryBoard"></div>
+<p id="memoryDone"></p>
+</div>
+
+<!-- MESSAGE -->
+<div id="page30" class="page">
+<img src="message for you.jpg">
+<button onclick="nextPage(9)">Next</button>
+</div>
+
+<!-- SINCE -->
+<div id="page40" class="page">
+<h3 id="countdown"></h3>
+<img src="puzzle.jpg">
+</div>
+
+</div>
+
+<script>
+
+const USER="moaa";
+const PASS="joey";
+
+/* 🔙 HISTORY STACK */
+let historyStack = [];
+
+function checkLogin(){
+let u=usernameInput.value;
+let p=passwordInput.value;
+if(u===USER && p===PASS){
+loginMsg.innerText="";
+nextPage(2);
+}else{
+loginMsg.innerText="Username أو Password غير صحيح";
+}
+}
+
+function nextPage(num){
+let current=document.querySelector(".page.active");
+if(current){
+historyStack.push(current.id);
+current.classList.remove("active");
+}
+document.getElementById("page"+num).classList.add("active");
+backBtn.style.display = historyStack.length>0 ? "block":"none";
+if(num===12) startTyping();
+}
+
+function goBack(){
+if(historyStack.length===0) return;
+let current=document.querySelector(".page.active");
+current.classList.remove("active");
+let previousId = historyStack.pop();
+document.getElementById(previousId).classList.add("active");
+backBtn.style.display = historyStack.length>0 ? "block":"none";
+}
+
+/* VIDEO */
+video1.onended=function(){
+videoNext.style.display="inline-block";
+};
+
+/* CHOOSE */
+function wrong(){
+let e=["🤨","😳","🧐","🙄","😑"];
+chooseResult.innerText=e[Math.floor(Math.random()*5)];
+}
+function correct(){
+chooseResult.innerText="that's my boy";
+chooseNext.style.display="inline-block";
+}
+
+/* FIRST DATE */
+let fdIndex=1;
+function flipFD(){
+fdIndex++;
+if(fdIndex>7) fdIndex=1;
+fdImg.src="first date"+fdIndex+".jpg";
+}
+
+/* Typing */
+let textContent="أول مرة اتقابلنا، مكنش في بالي خالص إننا هنبقى إحنا… ولا توقعت إني ممكن اتعلق بيك كده. بس يومها حسيت إني مرتاحة، متطمنة، مبسوطة… وحاسّة بحاجات كتير ملخبطه مع بعض، كل حاجة جديدة وغريبة… بس حلوة جدًا معاك";
+let i=0;
+let audio=new Audio("typing.mp3");
+
+function startTyping(){
+i=0;
+text.innerHTML="";
+audio.play();
+typeWriter();
+}
+
+function typeWriter(){
+if(i<textContent.length){
+text.innerHTML+=textContent.charAt(i);
+i++;
+setTimeout(typeWriter,40);
+}else{
+audio.pause();
+backToMenu.style.display="inline-block";
+}
+}
+
+/* Mystery */
+function checkMystery(){
+let v=mysteryInput.value.toLowerCase();
+if(v.includes("i love us") && v.includes("stay with me")){
+nextPage(22);
+}else mysteryResult.innerText="try again";
+}
+
+/* Memory */
+let board=memoryBoard;
+let cards=[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8];
+cards.sort(()=>0.5-Math.random());
+let first=null,lock=false,matched=0;
+
+cards.forEach(num=>{
+let img=document.createElement("img");
+img.src="back.jpg";
+img.dataset.num=num;
+img.onclick=function(){
+if(lock || img.classList.contains("done")) return;
+img.src="memory"+num+".jpg";
+if(!first){ first=img; }
+else{
+if(first.dataset.num===img.dataset.num){
+img.classList.add("done");
+first.classList.add("done");
+matched+=2;
+first=null;
+if(matched===16){
+memoryDone.innerHTML="<img src='prize.jpg'><br><button onclick='nextPage(9)'>Next</button>";
+}
+}else{
+lock=true;
+setTimeout(()=>{
+img.src="back.jpg";
+first.src="back.jpg";
+first=null;
+lock=false;
+},800);
+}
+}
+};
+board.appendChild(img);
+});
+
+/* Countdown */
+function updateCountdown(){
+let start=new Date("2025-05-20");
+let now=new Date();
+let d=now-start;
+let s=Math.floor(d/1000);
+let m=Math.floor(s/60);
+let h=Math.floor(m/60);
+let days=Math.floor(h/24);
+let y=Math.floor(days/365);
+let mo=Math.floor((days%365)/30);
+countdown.innerText=
+y+" years "+mo+" months "+(days%30)+" days "+
+(h%24)+" hours "+(m%60)+" minutes "+(s%60)+" seconds";
+}
+setInterval(updateCountdown,1000);
+
+</script>
+</body>
+</html>
